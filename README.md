@@ -4,7 +4,25 @@
 
 ### Пока реализованы только базовые функции (и то криво), но проект будет потихоньку допиливаться
 
+## Как установить и запустить:
+
+ <img width="905" height="207" alt="Снимок экрана 2026-09-27 183424" src="https://github.com/user-attachments/assets/acb688ee-200f-474c-868b-efae12a3a385" />
+
+ <img width="399" height="358" alt="Снимок экрана 2026-09-27 183704" src="https://github.com/user-attachments/assets/506f5dfe-cf01-450c-a1c2-00d4ba27092f" />
+
+ Далее разархивировать в удобной папке и кликать по выделенному
+
+ <img width="697" height="46" alt="Снимок экрана 2026-09-27 183234" src="https://github.com/user-attachments/assets/48f28a12-e2f8-497a-bd97-a1a11d09a457" />
+
+ <img width="505" height="28" alt="Снимок экрана 2026-09-27 183238" src="https://github.com/user-attachments/assets/000d667f-605b-4fdd-bec0-0bea7303073b" />
+
+ <img width="596" height="49" alt="Снимок экрана 2026-09-27 183245" src="https://github.com/user-attachments/assets/67f8c493-9370-4f3f-9467-01b6a65749b9" />
+
+ <img width="592" height="515" alt="Снимок экрана 2026-09-27 183304" src="https://github.com/user-attachments/assets/2f97634b-2eff-4ed1-83e3-29da29b91965" />
+
 ## Для запуска жмете 2 раза на WTAID.exe
+
+При первом запуске Windows будет ругаться на приложение. Разрешаем его запуск через `Подробнее`, `Выполнить в любом случае`. Если что можете проверить на вирусы - их нет
 
 У вас открывается вот такое окно
 
