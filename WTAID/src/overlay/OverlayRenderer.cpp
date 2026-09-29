@@ -325,9 +325,6 @@ void OverlayRenderer::renderFrame(const GUIFrame& frame, const ColorScheme& colo
             int slotOffsetX = slot.offsetX;
             int slotOffsetY = slot.offsetY;
             
-            slotOffsetX = static_cast<int>(std::round(static_cast<float>(slotOffsetX) / 10.0f) * 10.0f);
-            slotOffsetY = static_cast<int>(std::round(static_cast<float>(slotOffsetY) / 10.0f) * 10.0f);
-            
             const int margin = 10;
             const int minWidth = 20;
             const int maxX = windowWidth_ - minWidth - margin;

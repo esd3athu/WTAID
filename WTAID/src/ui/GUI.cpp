@@ -1,4 +1,5 @@
 #include "GUI.h"
+#include <unordered_map>
 #include "overlay/OverlayWindow.h"
 #include "ui/IndicatorSelectorDialog.h"
 #include "config/ConfigManager.h"
@@ -43,7 +44,7 @@ namespace
     const int MARGIN_X = 16;
     const int MARGIN_Y = 12;
     const int PANEL_PADDING = 10;
-    const int SLOT_HEIGHT = 28;
+    const int SLOT_HEIGHT = 30;
     const int SLOT_LABEL_WIDTH = 120;
     const int BAR_WIDTH = 200;
     const int SECTION_GAP = 12;
@@ -460,7 +461,7 @@ LRESULT GUI::handleMouse(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
                             }
                             
                             if (!found) {
-                                // Берём смещение из currentFrame_ и округляем до 20
+                                // Берём смещение из currentFrame_
                                 int offsetX = 0;
                                 int offsetY = 0;
                                 if (si >= 0 && si < static_cast<int>(currentFrame_.sections.size())) {
@@ -470,9 +471,6 @@ LRESULT GUI::handleMouse(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
                                         offsetY = section.slots[i].offsetY;
                                     }
                                 }
-                                // Округляем до 20
-                                offsetX = static_cast<int>(std::round(static_cast<float>(offsetX) / 20.0f) * 20.0f);
-                                offsetY = static_cast<int>(std::round(static_cast<float>(offsetY) / 20.0f) * 20.0f);
                                 SelectedSlot sel;
                                 sel.sectionIdx = si;
                                 sel.slotIdx = i;
@@ -512,9 +510,6 @@ LRESULT GUI::handleMouse(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
                                         offsetY = section.slots[i].offsetY;
                                     }
                                 }
-                                // Округляем до 20
-                                offsetX = static_cast<int>(std::round(static_cast<float>(offsetX) / 20.0f) * 20.0f);
-                                offsetY = static_cast<int>(std::round(static_cast<float>(offsetY) / 20.0f) * 20.0f);
                                 SelectedSlot sel;
                                 sel.sectionIdx = si;
                                 sel.slotIdx = i;
@@ -1410,10 +1405,38 @@ void GUI::showIndicatorSelector()
             saveCallback_(colors_);
         }
         
-        // Перерисовываем окно
-        if (hwnd_)
+        // Перестраиваем GUI-кадр с новыми видимыми индикаторами
+        if (profileManager_ && hwnd_)
         {
-            InvalidateRect(hwnd_, nullptr, FALSE);
+            GUIFrame emptyFrame;
+            emptyFrame.valid = true;
+            emptyFrame.vehicleType = "Waiting for telemetry...";
+            
+            std::unordered_map<std::string, std::vector<std::string>> sectionIndicators;
+            for (const auto& iv : profile->indicatorVisibility)
+            {
+                if (iv.visible)
+                {
+                    sectionIndicators[iv.section].push_back(iv.name);
+                }
+            }
+            
+            for (auto& [sectionName, indicators] : sectionIndicators)
+            {
+                IndicatorSection section;
+                section.title = sectionName;
+                for (const auto& indicatorName : indicators)
+                {
+                    IndicatorSlot slot;
+                    slot.label = indicatorName + ":";
+                    slot.value = "0";
+                    slot.fraction = 0.0f;
+                    section.slots.push_back(slot);
+                }
+                emptyFrame.sections.push_back(section);
+            }
+            
+            updateFrame(emptyFrame);
         }
     }
 }

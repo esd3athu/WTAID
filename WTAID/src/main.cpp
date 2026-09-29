@@ -7,6 +7,8 @@
 #include "indicators/AlertSystem.h"
 #include "indicators/BuiltinIndicators.h"
 #include "ui/GUI.h"
+#include <vector>
+#include <unordered_map>
 #include "config/ConfigManager.h"
 #include "ui/ProfileDialog.h"
 #include "ui/IndicatorSelectorDialog.h"
@@ -296,6 +298,47 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
             std::cout << "[Config] Color scheme saved." << std::endl;
         }
     });
+
+    // Создаём пустой GUI-кадр для отображения при запуске на основе профиля
+    GUIFrame emptyFrame;
+    emptyFrame.valid = true;
+    emptyFrame.vehicleType = "Waiting for telemetry...";
+    
+    // Получаем список видимых индикаторов из профиля
+    const Profile* activeProfile = profileManager.getActiveProfile();
+    if (activeProfile)
+    {
+        // Группируем индикаторы по секциям
+        std::unordered_map<std::string, std::vector<std::string>> sectionIndicators;
+        
+        for (const auto& iv : activeProfile->indicatorVisibility)
+        {
+            if (iv.visible)
+            {
+                sectionIndicators[iv.section].push_back(iv.name);
+            }
+        }
+        
+        // Создаём секции с видимыми индикаторами
+        for (auto& [sectionName, indicators] : sectionIndicators)
+        {
+            IndicatorSection section;
+            section.title = sectionName;
+            
+            for (const auto& indicatorName : indicators)
+            {
+                IndicatorSlot slot;
+                slot.label = indicatorName + ":";
+                slot.value = "0";
+                slot.fraction = 0.0f;
+                section.slots.push_back(slot);
+            }
+            
+            emptyFrame.sections.push_back(section);
+        }
+    }
+    
+    gui.updateFrame(emptyFrame);
 
     // Устанавливаем начальную цветовую схему из профиля
     const Profile* defaultProfile = profileManager.getActiveProfile();
@@ -635,6 +678,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     // std::cout << "Started telemetry polling (interval: 25 ms)." << std::endl;
     // std::cout << "Press Enter to stop..." << std::endl;
     // std::cout << std::endl;
+
+    // Гарантируем, что GUI окно показано и отрисовано до запуска HTTP
+    ShowWindow(gui.getHWND(), SW_SHOW);
+    UpdateWindow(gui.getHWND());
+    Sleep(100);
 
     httpClient.startPolling(25);
     httpClient.startPollingIndicators(25);
