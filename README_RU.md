@@ -6,11 +6,22 @@
 
 ## Как установить и запустить:
 
+### Есть 2 способа:
+
+#### 1 - Сверху на главной странице
+
  <img width="905" height="207" alt="Снимок экрана 2026-09-27 183424" src="https://github.com/user-attachments/assets/acb688ee-200f-474c-868b-efae12a3a385" />
 
  <img width="399" height="358" alt="Снимок экрана 2026-09-27 183704" src="https://github.com/user-attachments/assets/506f5dfe-cf01-450c-a1c2-00d4ba27092f" />
 
- Далее разархивировать в удобной папке и кликать по выделенному
+#### 2 - в релизах
+
+<img width="167" height="84" alt="Снимок экрана 2026-09-29 202243" src="https://github.com/user-attachments/assets/e7140014-6d56-4d20-993e-2c57212a7b92" />
+
+<img width="1212" height="188" alt="Снимок экрана 2026-09-29 202255" src="https://github.com/user-attachments/assets/7e7b52ce-9e73-4a2e-925c-e530931c8e63" />
+
+
+ ## Далее разархивировать в удобной папке и кликать по выделенному
 
  <img width="697" height="46" alt="Снимок экрана 2026-09-27 183234" src="https://github.com/user-attachments/assets/48f28a12-e2f8-497a-bd97-a1a11d09a457" />
 
