@@ -1,0 +1,153 @@
+{
+  "profiles": [
+    {
+      "alertBg": 5248020,
+      "alertText": 16737380,
+      "barAlert": 16724530,
+      "barBg": 2304564,
+      "barNormal": 3973375,
+      "barWarning": 16757800,
+      "bgMain": 987670,
+      "bgPanel": 1646118,
+      "bgPanelBorder": 3292235,
+      "headerText": 6605055,
+      "indicatorVisibility": [
+        {
+          "name": "Altitude",
+          "overlayOffsetX": 0,
+          "overlayOffsetY": 0,
+          "section": "FLIGHT",
+          "visible": true
+        },
+        {
+          "name": "TAS",
+          "overlayOffsetX": 0,
+          "overlayOffsetY": 0,
+          "section": "FLIGHT",
+          "visible": true
+        },
+        {
+          "name": "IAS",
+          "overlayOffsetX": 0,
+          "overlayOffsetY": 0,
+          "section": "FLIGHT",
+          "visible": true
+        },
+        {
+          "name": "Mach",
+          "overlayOffsetX": 0,
+          "overlayOffsetY": 0,
+          "section": "FLIGHT",
+          "visible": true
+        },
+        {
+          "name": "AoA",
+          "overlayOffsetX": 0,
+          "overlayOffsetY": 0,
+          "section": "FLIGHT",
+          "visible": true
+        },
+        {
+          "name": "GForce",
+          "overlayOffsetX": 0,
+          "overlayOffsetY": 0,
+          "section": "FLIGHT",
+          "visible": true
+        },
+        {
+          "name": "ClimbRate",
+          "overlayOffsetX": 0,
+          "overlayOffsetY": 0,
+          "section": "FLIGHT",
+          "visible": true
+        },
+        {
+          "name": "Fuel",
+          "overlayOffsetX": 0,
+          "overlayOffsetY": 0,
+          "section": "FUEL",
+          "visible": true
+        },
+        {
+          "name": "FuelPercent",
+          "overlayOffsetX": 0,
+          "overlayOffsetY": 0,
+          "section": "FUEL",
+          "visible": true
+        },
+        {
+          "name": "FuelPercentFM",
+          "overlayOffsetX": 0,
+          "overlayOffsetY": 0,
+          "section": "FUEL",
+          "visible": true
+        },
+        {
+          "name": "TimeRemaining",
+          "overlayOffsetX": 0,
+          "overlayOffsetY": 0,
+          "section": "FUEL",
+          "visible": true
+        },
+        {
+          "name": "Flaps",
+          "overlayOffsetX": 0,
+          "overlayOffsetY": 0,
+          "section": "CONTROLS",
+          "visible": true
+        },
+        {
+          "name": "Gear",
+          "overlayOffsetX": 0,
+          "overlayOffsetY": 0,
+          "section": "CONTROLS",
+          "visible": true
+        },
+        {
+          "name": "Airbrake",
+          "overlayOffsetX": 0,
+          "overlayOffsetY": 0,
+          "section": "CONTROLS",
+          "visible": true
+        },
+        {
+          "name": "RPM",
+          "overlayOffsetX": 0,
+          "overlayOffsetY": 0,
+          "section": "ENGINE 1",
+          "visible": true
+        },
+        {
+          "name": "Thrust",
+          "overlayOffsetX": 0,
+          "overlayOffsetY": 0,
+          "section": "ENGINE 1",
+          "visible": true
+        },
+        {
+          "name": "RPM2",
+          "overlayOffsetX": 0,
+          "overlayOffsetY": 0,
+          "section": "ENGINE 2",
+          "visible": true
+        },
+        {
+          "name": "Thrust2",
+          "overlayOffsetX": 0,
+          "overlayOffsetY": 0,
+          "section": "ENGINE 2",
+          "visible": true
+        }
+      ],
+      "isActive": true,
+      "name": "Default",
+      "textAlert": 16729670,
+      "textLabel": 9214890,
+      "textNormal": 13161180,
+      "textValue": 16777215,
+      "vehicleType": "",
+      "vehicleTypeFilter": ""
+    }
+  ],
+  "version": "1.0"
+}
