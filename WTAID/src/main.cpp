@@ -85,10 +85,7 @@ static void buildGUIFrame(GUIFrame& frame,
         {
             for (const auto& iv : profile->indicatorVisibility)
             {
-                if (iv.overlayOffsetX != 0 || iv.overlayOffsetY != 0)
-                {
-                    overlayOffsets[iv.name] = {iv.overlayOffsetX, iv.overlayOffsetY};
-                }
+                overlayOffsets[iv.name] = {iv.overlayOffsetX, iv.overlayOffsetY};
             }
         }
     }

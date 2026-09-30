@@ -1,8 +1,11 @@
 #define NOMINMAX
 #include "overlay/OverlayRenderer.h"
+#include <dwmapi.h>
 #include <algorithm>
 #include <cmath>
 #include <utility>
+
+#pragma comment(lib, "dwmapi.lib")
 
 // ---------------------------------------------------------------------------
 // Вспомогательная функция: COLORREF → D2D1_COLOR_F
@@ -65,19 +68,19 @@ bool OverlayRenderer::initialize(HWND hwnd, int width, int height) {
 
     // Создаём текстовые форматы
     hr = writeFactory_->CreateTextFormat(
-        L"Segoe UI", nullptr,
+        L"Consolas", nullptr,
         DWRITE_FONT_WEIGHT_NORMAL, DWRITE_FONT_STYLE_NORMAL,
         DWRITE_FONT_STRETCH_NORMAL, 16.0f, L"ru-RU", &fontRegular_);
     if (FAILED(hr)) return false;
 
     hr = writeFactory_->CreateTextFormat(
-        L"Segoe UI", nullptr,
+        L"Consolas", nullptr,
         DWRITE_FONT_WEIGHT_BOLD, DWRITE_FONT_STYLE_NORMAL,
         DWRITE_FONT_STRETCH_NORMAL, 18.0f, L"ru-RU", &fontBold_);
     if (FAILED(hr)) return false;
 
     hr = writeFactory_->CreateTextFormat(
-        L"Segoe UI", nullptr,
+        L"Consolas", nullptr,
         DWRITE_FONT_WEIGHT_NORMAL, DWRITE_FONT_STYLE_NORMAL,
         DWRITE_FONT_STRETCH_NORMAL, 12.0f, L"ru-RU", &fontSmall_);
     if (FAILED(hr)) return false;
@@ -100,11 +103,15 @@ bool OverlayRenderer::initialize(HWND hwnd, int width, int height) {
     D2D1_HWND_RENDER_TARGET_PROPERTIES hwndProps = D2D1::HwndRenderTargetProperties(hwnd, d2dSize);
     D2D1_RENDER_TARGET_PROPERTIES props = D2D1::RenderTargetProperties(
         D2D1_RENDER_TARGET_TYPE_DEFAULT,
-        D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_IGNORE)
+        D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED)
     );
 
     hr = d2dFactory_->CreateHwndRenderTarget(props, hwndProps, &renderTarget_);
     if (FAILED(hr)) return false;
+
+    // Включаем DWM blur для устранения хроматических аберраций
+    MARGINS margins = {0, 0, 0, 0};
+    DwmExtendFrameIntoClientArea(hwnd, &margins);
 
     // Создаём кисти
     hr = renderTarget_->CreateSolidColorBrush(
@@ -322,8 +329,9 @@ void OverlayRenderer::renderFrame(const GUIFrame& frame, const ColorScheme& colo
         int slotIdx = 0;
 
         for (const auto& slot : section.slots) {
-            int slotOffsetX = slot.offsetX;
-            int slotOffsetY = slot.offsetY;
+            // Округляем смещения до целых пикселей для устранения хроматических аберраций
+            int slotOffsetX = static_cast<int>(std::round(static_cast<float>(slot.offsetX)));
+            int slotOffsetY = static_cast<int>(std::round(static_cast<float>(slot.offsetY)));
             
             const int margin = 10;
             const int minWidth = 20;
@@ -489,12 +497,35 @@ void OverlayRenderer::renderSections(ID2D1HwndRenderTarget* renderTarget,
                 section.x + label.x + static_cast<float>(label.slotOffsetX), section.y + label.y + static_cast<float>(label.slotOffsetY),
                 section.x + label.x + label.width + static_cast<float>(label.slotOffsetX), section.y + label.y + label.height + static_cast<float>(label.slotOffsetY)
             );
+            
+            // Обводка цветом фона панели для чётких границ
+            D2D1_COLOR_F panelColor = D2D1::ColorF(
+                static_cast<float>(GetRValue(colors.bgPanel)) / 255.0f,
+                static_cast<float>(GetGValue(colors.bgPanel)) / 255.0f,
+                static_cast<float>(GetBValue(colors.bgPanel)) / 255.0f,
+                1.0f
+            );
+            ID2D1SolidColorBrush* panelBrush;
+            renderTarget->CreateSolidColorBrush(panelColor, &panelBrush);
+            
+            // Рисуем обводку со смещением на 1 пиксель
+            renderTarget->DrawText(label.text.c_str(), static_cast<UINT32>(label.text.length()), format,
+                D2D1::RectF(labelRect.left - 1, labelRect.top, labelRect.right - 1, labelRect.bottom), panelBrush);
+            renderTarget->DrawText(label.text.c_str(), static_cast<UINT32>(label.text.length()), format,
+                D2D1::RectF(labelRect.left + 1, labelRect.top, labelRect.right + 1, labelRect.bottom), panelBrush);
+            renderTarget->DrawText(label.text.c_str(), static_cast<UINT32>(label.text.length()), format,
+                D2D1::RectF(labelRect.left, labelRect.top - 1, labelRect.right, labelRect.bottom - 1), panelBrush);
+            renderTarget->DrawText(label.text.c_str(), static_cast<UINT32>(label.text.length()), format,
+                D2D1::RectF(labelRect.left, labelRect.top + 1, labelRect.right, labelRect.bottom + 1), panelBrush);
+            
+            // Основной текст
             renderTarget->DrawText(
                 label.text.c_str(),
                 static_cast<UINT32>(label.text.length()),
                 format, labelRect, labelBrush
             );
             labelBrush->Release();
+            panelBrush->Release();
         }
 
         for (const auto& value : section.values) {
@@ -507,12 +538,35 @@ void OverlayRenderer::renderSections(ID2D1HwndRenderTarget* renderTarget,
 
             ID2D1SolidColorBrush* valueBrush;
             renderTarget->CreateSolidColorBrush(value.color, &valueBrush);
+            
+            // Обводка цветом фона панели для чётких границ
+            D2D1_COLOR_F panelColor = D2D1::ColorF(
+                static_cast<float>(GetRValue(colors.bgPanel)) / 255.0f,
+                static_cast<float>(GetGValue(colors.bgPanel)) / 255.0f,
+                static_cast<float>(GetBValue(colors.bgPanel)) / 255.0f,
+                1.0f
+            );
+            ID2D1SolidColorBrush* panelBrush;
+            renderTarget->CreateSolidColorBrush(panelColor, &panelBrush);
+            
+            // Рисуем обводку со смещением на 1 пиксель
+            renderTarget->DrawText(value.text.c_str(), static_cast<UINT32>(value.text.length()), format,
+                D2D1::RectF(valueRect.left - 1, valueRect.top, valueRect.right - 1, valueRect.bottom), panelBrush);
+            renderTarget->DrawText(value.text.c_str(), static_cast<UINT32>(value.text.length()), format,
+                D2D1::RectF(valueRect.left + 1, valueRect.top, valueRect.right + 1, valueRect.bottom), panelBrush);
+            renderTarget->DrawText(value.text.c_str(), static_cast<UINT32>(value.text.length()), format,
+                D2D1::RectF(valueRect.left, valueRect.top - 1, valueRect.right, valueRect.bottom - 1), panelBrush);
+            renderTarget->DrawText(value.text.c_str(), static_cast<UINT32>(value.text.length()), format,
+                D2D1::RectF(valueRect.left, valueRect.top + 1, valueRect.right, valueRect.bottom + 1), panelBrush);
+            
+            // Основной текст
             renderTarget->DrawText(
                 value.text.c_str(),
                 static_cast<UINT32>(value.text.length()),
                 format, valueRect, valueBrush
             );
             valueBrush->Release();
+            panelBrush->Release();
         }
 
         for (const auto& bar : section.bars) {

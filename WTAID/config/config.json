@@ -1,112 +1,112 @@
 {
   "profiles": [
     {
-      "alertBg": 5248020,
-      "alertText": 16737380,
+      "alertBg": 16478312,
+      "alertText": 16731978,
       "barAlert": 16724530,
-      "barBg": 2304564,
-      "barNormal": 3973375,
+      "barBg": 8947848,
+      "barNormal": 16030547,
       "barWarning": 16757800,
-      "bgMain": 987670,
-      "bgPanel": 1646118,
-      "bgPanelBorder": 3292235,
-      "headerText": 6605055,
+      "bgMain": 0,
+      "bgPanel": 1835008,
+      "bgPanelBorder": 4079166,
+      "headerText": 8438269,
       "indicatorVisibility": [
         {
           "name": "Altitude",
           "overlayOffsetX": 0,
           "overlayOffsetY": 0,
           "section": "FLIGHT",
-          "visible": true
+          "visible": false
         },
         {
           "name": "TAS",
           "overlayOffsetX": 0,
           "overlayOffsetY": 0,
           "section": "FLIGHT",
-          "visible": true
+          "visible": false
         },
         {
           "name": "IAS",
           "overlayOffsetX": 0,
           "overlayOffsetY": 0,
           "section": "FLIGHT",
-          "visible": true
+          "visible": false
         },
         {
           "name": "Mach",
           "overlayOffsetX": 0,
           "overlayOffsetY": 0,
           "section": "FLIGHT",
-          "visible": true
+          "visible": false
         },
         {
           "name": "AoA",
           "overlayOffsetX": 0,
           "overlayOffsetY": 0,
           "section": "FLIGHT",
-          "visible": true
+          "visible": false
         },
         {
           "name": "GForce",
           "overlayOffsetX": 0,
           "overlayOffsetY": 0,
           "section": "FLIGHT",
-          "visible": true
+          "visible": false
         },
         {
           "name": "ClimbRate",
           "overlayOffsetX": 0,
           "overlayOffsetY": 0,
           "section": "FLIGHT",
-          "visible": true
+          "visible": false
         },
         {
           "name": "Fuel",
-          "overlayOffsetX": 0,
-          "overlayOffsetY": 0,
+          "overlayOffsetX": 1110,
+          "overlayOffsetY": 670,
           "section": "FUEL",
           "visible": true
         },
         {
           "name": "FuelPercent",
-          "overlayOffsetX": 0,
-          "overlayOffsetY": 0,
+          "overlayOffsetX": 1110,
+          "overlayOffsetY": 670,
           "section": "FUEL",
           "visible": true
         },
         {
           "name": "FuelPercentFM",
-          "overlayOffsetX": 0,
-          "overlayOffsetY": 0,
+          "overlayOffsetX": 1110,
+          "overlayOffsetY": 670,
           "section": "FUEL",
           "visible": true
         },
         {
           "name": "TimeRemaining",
-          "overlayOffsetX": 0,
-          "overlayOffsetY": 0,
+          "overlayOffsetX": 1110,
+          "overlayOffsetY": 670,
           "section": "FUEL",
           "visible": true
         },
         {
           "name": "Flaps",
-          "overlayOffsetX": 0,
-          "overlayOffsetY": 0,
+          "overlayOffsetX": 1110,
+          "overlayOffsetY": 670,
           "section": "CONTROLS",
           "visible": true
         },
         {
           "name": "Gear",
-          "overlayOffsetX": 0,
-          "overlayOffsetY": 0,
+          "overlayOffsetX": 1110,
+          "overlayOffsetY": 670,
           "section": "CONTROLS",
           "visible": true
         },
         {
           "name": "Airbrake",
-          "overlayOffsetX": 0,
-          "overlayOffsetY": 0,
+          "overlayOffsetX": 1110,
+          "overlayOffsetY": 670,
           "section": "CONTROLS",
           "visible": true
         },
@@ -115,34 +115,34 @@
           "overlayOffsetX": 0,
           "overlayOffsetY": 0,
           "section": "ENGINE 1",
-          "visible": true
+          "visible": false
         },
         {
           "name": "Thrust",
           "overlayOffsetX": 0,
           "overlayOffsetY": 0,
           "section": "ENGINE 1",
-          "visible": true
+          "visible": false
         },
         {
           "name": "RPM2",
           "overlayOffsetX": 0,
           "overlayOffsetY": 0,
           "section": "ENGINE 2",
-          "visible": true
+          "visible": false
         },
         {
           "name": "Thrust2",
           "overlayOffsetX": 0,
           "overlayOffsetY": 0,
           "section": "ENGINE 2",
-          "visible": true
+          "visible": false
         }
       ],
       "isActive": true,
       "name": "Default",
-      "textAlert": 16729670,
-      "textLabel": 9214890,
+      "textAlert": 5523199,
+      "textLabel": 15000804,
       "textNormal": 13161180,
       "textValue": 16777215,
       "vehicleType": "",

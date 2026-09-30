@@ -235,11 +235,26 @@ void GUI::updateFrame(const GUIFrame& frame)
     // Восстанавливаем смещения для существующих слотов по имени
     for (auto& section : currentFrame_.sections) {
         for (auto& slot : section.slots) {
+            // Сначала пытаемся восстановить из сохранённых
+            bool found = false;
             for (const auto& offset : allOffsets) {
                 if (offset.slotName == slot.label) {
                     slot.offsetX = offset.offsetX;
                     slot.offsetY = offset.offsetY;
+                    found = true;
                     break;
+                }
+            }
+            // Если не нашли в сохранённых, пробуем из кэша overlay
+            if (!found) {
+                std::string slotName = slot.label;
+                if (!slotName.empty() && slotName.back() == ':')
+                    slotName.pop_back();
+                
+                auto it = cachedOverlayOffsets_.find(slotName);
+                if (it != cachedOverlayOffsets_.end()) {
+                    slot.offsetX = it->second.first;
+                    slot.offsetY = it->second.second;
                 }
             }
         }
@@ -1497,9 +1512,6 @@ void GUI::initOverlayOffsetCache(ProfileManager& pm)
     
     for (const auto& iv : profile->indicatorVisibility)
     {
-        if (iv.overlayOffsetX != 0 || iv.overlayOffsetY != 0)
-        {
-            cachedOverlayOffsets_[iv.name] = {iv.overlayOffsetX, iv.overlayOffsetY};
-        }
+        cachedOverlayOffsets_[iv.name] = {iv.overlayOffsetX, iv.overlayOffsetY};
     }
 }
