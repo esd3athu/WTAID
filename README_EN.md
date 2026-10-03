@@ -86,7 +86,9 @@ Indicators can be selected individually (left-click) or as a group (SHIFT + left
 # Principles and features of operation
 All data is taken from this localhost:
 
+  ```
   http://127.0.0.1:8111/  
+  ```
 
 This is the official way to get additional data from the game. WTRTI works the same way. There can be no ban for this, because the program does not interact with the game files or the game-related part of RAM in any way.
 
